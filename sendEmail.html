@@ -10,7 +10,7 @@
     <script src="./jquery/jquery.min.js" defer></script>
     <script src="./js/function/sellerFunction" defer></script>
     <script src="./js/sellerManageSystem.js" defer></script>
-    <title>SearchSalesVolume</title>
+    <title>sendEmail</title>
 </head>
 
 <body>
@@ -21,17 +21,11 @@
     </div>
 
     <div class="main">
-        <h1>銷售資訊查詢</h1>
-
-        <div id="datetimeSelect">
-            <p>選擇開始時間 <input id="startTime" type="datetime-local"></p>
-            <p>選擇結束時間 <input id="endTime" type="datetime-local"></p>
-            <button id="showSalesVolumeBtn">確認</button>
-
-            <div id="showSalesVolumeInfo">
-                <table id="showSalesVolumeTable" class="salesVolume-table"></table>
-                <p id="showSalesVolumeTotalPrice"></p>
-            </div>
+        <div>
+            <h1>推播功能</h1>
+            <p>訊息標題 <input id="emailTitle" type="text"></p>
+            <p>訊息內容 <input id="emailMessage" type="text"></p>
+            <button id="sendEmail">確認</button>
         </div>
     </div>
 

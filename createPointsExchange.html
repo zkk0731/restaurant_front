@@ -5,12 +5,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" href="./css/searchSalesVolume.css">
     <script src="./jquery/jquery.min.js" defer></script>
     <script src="./js/function/sellerFunction" defer></script>
     <script src="./js/sellerManageSystem.js" defer></script>
-    <title>SearchSalesVolume</title>
+    <title>createPointsExchange</title>
 </head>
 
 <body>
@@ -21,21 +19,14 @@
     </div>
 
     <div class="main">
-        <h1>銷售資訊查詢</h1>
-
-        <div id="datetimeSelect">
-            <p>選擇開始時間 <input id="startTime" type="datetime-local"></p>
-            <p>選擇結束時間 <input id="endTime" type="datetime-local"></p>
-            <button id="showSalesVolumeBtn">確認</button>
-
-            <div id="showSalesVolumeInfo">
-                <table id="showSalesVolumeTable" class="salesVolume-table"></table>
-                <p id="showSalesVolumeTotalPrice"></p>
-            </div>
-        </div>
+        <h1>創建點數兌換項目</h1>
+        <p>輸入優惠名稱<input id="pointName" type="text"></p>
+        <p>輸入消費點數<input id="pointCost" type="text" oninput="value=value.replace(/[^\d]/g,'')"></p>
+        <p>輸入折扣<input id="pointDiscount" type="text" value=0 maxlength="2" oninput="value=value.replace(/[^\d]/g,'')">
+        </p>
+        <button id="createPointsExchangeBtn">確認</button>
     </div>
 
-    <div class="footer"></div>
 </body>
 
 </html>

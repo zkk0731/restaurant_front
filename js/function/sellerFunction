@@ -136,3 +136,144 @@ function logout() {
 
 
 }
+
+function createPointsExchange(pointName, pointCost, intDiscount) {
+
+    let objPostData = { point_name: pointName, points_cost: pointCost, discount: intDiscount }
+
+    $.ajax({
+        url: 'http://localhost:8080/createPointsExchange',
+        method: 'POST',
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify(objPostData),
+        success: function (res) {
+
+            let { message } = res
+
+            if (message === '所需資料缺失') {
+                alert('所需資料缺失')
+            } else if (message === '折扣輸入錯誤') {
+                alert('折扣輸入錯誤')
+            } else if (message === '名稱已存在') {
+                alert('名稱已存在')
+            } else if (message === 'Success') {
+                $('#showSalesVolumeTotalPrice').empty()
+                $('#showSalesVolumeTable').empty()
+                $('#showSalesVolumeTable').append(`<tr><th>品項</th><th>數量</th></tr>`)
+                // map的foreach
+                $.each(orderInfoMap, function (key, value) {
+                    $('#showSalesVolumeTable').append(`<tr><td>${key}</td><td>${value}</td></tr>`)
+                })
+
+                $('#showSalesVolumeTotalPrice').append(`<p>總收入: ${totalPrice}</p>`)
+            }
+        }, xhrFields: {
+            withCredentials: true
+        },
+        error: function (e) {
+            console.log(e)
+            alert('Failed')
+        }
+
+    })
+}
+
+function readPointsExchange() {
+
+    $.ajax({
+        url: 'http://localhost:8080/readPointsExchange',
+        method: 'POST',
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify(),
+        success: function (res) {
+            let list = res
+
+            $('#readPointsExchangeTable').empty()
+            $('#readPointsExchangeTable').append(`<tr><th>名稱</th><th>消費點數</th></tr>`)
+
+            for (let points of list) {
+                $('#readPointsExchangeTable').append(`<tr><td>${points.pointName}</td><td>${points.pointsCost}</td></tr>`)
+            }
+
+        }, xhrFields: {
+            withCredentials: true
+        },
+        error: function (e) {
+            console.log(e)
+            alert('Failed')
+        }
+
+    })
+
+
+}
+
+function sendEmail(strEmailTitle, strEmailMessage) {
+
+    let objPostData = { emailTitle: strEmailTitle, emailMessage: strEmailMessage }
+
+    $.ajax({
+        url: 'http://localhost:8080/send_email',
+        method: 'POST',
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify(objPostData),
+        success: function (res) {
+
+            let { message } = res
+
+            if (message === '所需資料缺失') {
+                alert('所需資料缺失')
+            } else if (message === '無會員資訊') {
+                alert('無會員資訊')
+            } else if (message === '無email資訊') {
+                alert('無email資訊')
+            }
+            else if (message === 'Success') {
+                alert('成功發送')
+            }
+        }, xhrFields: {
+            withCredentials: true
+        },
+        error: function (e) {
+            console.log(e)
+            alert('Failed')
+        }
+
+    })
+}
+
+function createCommodity(intPrice, strCommodityName, strCategory) {
+
+    let objPostData = { price: intPrice, commodityName: strCommodityName, category: strCategory }
+
+    $.ajax({
+        url: 'http://localhost:8080/create_commodity',
+        method: 'POST',
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify(objPostData),
+        success: function (res) {
+
+            let { message } = res
+
+            if (message === '資料格式錯誤') {
+                alert('資料格式錯誤 1. 價格不得小於零 2. 品項名稱不得為空 3. 品項分類不得為空')
+            } else if (message === '餐點已存在') {
+                alert('餐點已存在')
+            }
+            else if (message === 'Success') {
+                alert('新增成功')
+            }
+        }, xhrFields: {
+            withCredentials: true
+        },
+        error: function (e) {
+            console.log(e)
+            alert('Failed')
+        }
+
+    })
+}

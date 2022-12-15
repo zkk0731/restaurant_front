@@ -10,7 +10,7 @@
     <script src="./jquery/jquery.min.js" defer></script>
     <script src="./js/function/sellerFunction" defer></script>
     <script src="./js/sellerManageSystem.js" defer></script>
-    <title>SearchSalesVolume</title>
+    <title>createCommodity</title>
 </head>
 
 <body>
@@ -21,18 +21,15 @@
     </div>
 
     <div class="main">
-        <h1>銷售資訊查詢</h1>
-
-        <div id="datetimeSelect">
-            <p>選擇開始時間 <input id="startTime" type="datetime-local"></p>
-            <p>選擇結束時間 <input id="endTime" type="datetime-local"></p>
-            <button id="showSalesVolumeBtn">確認</button>
-
-            <div id="showSalesVolumeInfo">
-                <table id="showSalesVolumeTable" class="salesVolume-table"></table>
-                <p id="showSalesVolumeTotalPrice"></p>
-            </div>
+        <h1></h1>
+        <div>
+            <h1>建立餐點品項</h1>
+            <p>餐點名稱 <input id="commodityName" type="text"></p>
+            <p>餐點分類 <input id="commodityCategory" type="text"></p>
+            <p>餐點價格 <input id="commodityPrice" type="text" oninput="value=value.replace(/[^\d]/g,'')"></p>
+            <button id="createCommodityBtn">確認</button>
         </div>
+
     </div>
 
     <div class="footer"></div>
