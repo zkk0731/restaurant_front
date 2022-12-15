@@ -1,0 +1,138 @@
+
+
+function login(strAccount, strPwd) {
+
+    let objPostData = { memberAccount: strAccount, memberPwd: strPwd }
+
+    $.ajax({
+        url: 'http://localhost:8080/login',
+        method: 'POST',
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify(objPostData),
+        success: function (res) {
+
+            let { message } = res
+
+            if (message === '已有帳號登入，要登入其他帳號請先登出') {
+                alert('已有帳號登入，要登入其他帳號請先登出')
+            } else if (message === '所需資料缺失') {
+                alert('所需資料缺失')
+            } else if (message === '帳號或密碼錯誤') {
+                alert('帳號或密碼錯誤')
+            }
+
+            else if (message === '登入店家成功') {
+                alert('登入店家成功')
+                window.location.href = 'sellerManageSystem.html'
+            }
+        }, xhrFields: {
+            withCredentials: true
+        },
+        error: function (e) {
+            console.log(e)
+            alert('Failed')
+        }
+
+    })
+}
+function showLogin() {
+
+    $.ajax({
+        url: 'http://localhost:8080/check_seller_login',
+        method: 'POST',
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify(),
+        success: function (res) {
+
+            let { message } = res
+
+            if (message === '尚未登入') {
+                alert('尚未登入')
+                window.location.href = 'login.html'
+            } else {
+                $('#showLogin').empty()
+                $('#showLogin').append(`<p>${message}</p>`)
+            }
+        }, xhrFields: {
+            withCredentials: true
+        },
+        error: function (e) {
+            console.log(e)
+            alert('Failed')
+        }
+
+    })
+
+
+}
+
+function searchSalesVolume(startDateTime, endDateTime) {
+
+    let objPostData = { start_date_time: startDateTime, end_date_time: endDateTime }
+
+    $.ajax({
+        url: 'http://localhost:8080/search_sales_volume',
+        method: 'POST',
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify(objPostData),
+        success: function (res) {
+
+            let { message, orderInfoMap, totalPrice } = res
+
+            if (message === '所需資料缺失') {
+                alert('所需資料缺失')
+            } else if (message === '資料格式錯誤') {
+                alert('資料格式錯誤')
+            } else if (message === 'Success') {
+                $('#showSalesVolumeTotalPrice').empty()
+                $('#showSalesVolumeTable').empty()
+                $('#showSalesVolumeTable').append(`<tr><th>品項</th><th>數量</th></tr>`)
+                // map的foreach
+                $.each(orderInfoMap, function (key, value) {
+                    $('#showSalesVolumeTable').append(`<tr><td>${key}</td><td>${value}</td></tr>`)
+                })
+
+                $('#showSalesVolumeTotalPrice').append(`<p>總收入: ${totalPrice}</p>`)
+            }
+        }, xhrFields: {
+            withCredentials: true
+        },
+        error: function (e) {
+            console.log(e)
+            alert('Failed')
+        }
+
+    })
+}
+
+function logout() {
+
+    $.ajax({
+        url: 'http://localhost:8080/logout',
+        method: 'POST',
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify(),
+        success: function (res) {
+
+            let { message } = res
+
+            if (message === 'Success') {
+                alert('登出成功')
+                window.location.href = 'login.html'
+            }
+        }, xhrFields: {
+            withCredentials: true
+        },
+        error: function (e) {
+            console.log(e)
+            alert('Failed')
+        }
+
+    })
+
+
+}

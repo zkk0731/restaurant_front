@@ -1,0 +1,8 @@
+.salesVolume-table,
+.salesVolume-table tr,
+.salesVolume-table td,
+.salesVolume-table th {
+    border: .15rem solid black;
+    border-collapse: collapse;
+
+}

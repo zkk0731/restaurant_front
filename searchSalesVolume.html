@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="./css/searchSalesVolume.css">
+    <script src="./jquery/jquery.min.js" defer></script>
+    <script src="./js/function/sellerFunction" defer></script>
+    <script src="./js/sellerManageSystem.js" defer></script>
+    <title>SearchSalesVolume</title>
+</head>
+
+<body>
+    <div class="header">
+        <button id="logoutBtn">登出</button>
+    </div>
+
+    <div class="main">
+        <h1>銷售資訊查詢</h1>
+        <div id="showLogin"></div>
+        <div id="datetimeSelect">
+            <p>選擇開始時間 <input id="startTime" type="datetime-local"></p>
+            <p>選擇結束時間 <input id="endTime" type="datetime-local"></p>
+            <button id="showSalesVolumeBtn">確認</button>
+
+            <div id="showSalesVolumeInfo">
+                <table id="showSalesVolumeTable" class="salesVolume-table"></table>
+                <p id="showSalesVolumeTotalPrice"></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer"></div>
+</body>
+
+</html>
