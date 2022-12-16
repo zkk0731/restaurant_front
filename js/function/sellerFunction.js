@@ -194,7 +194,7 @@ function readPointsExchange() {
             $('#readPointsExchangeTable').append(`<tr><th>名稱</th><th>消費點數</th></tr>`)
 
             for (let points of list) {
-                $('#readPointsExchangeTable').append(`<tr><td>${points.pointName}</td><td>${points.pointsCost}</td></tr>`)
+                $('#readPointsExchangeTable').append(`<tr><td>${points.pointName}</td><td>${points.pointsCost}</td><td><button id="updatePoints_${points.pointName}">修改</button></td> <td><button id="deletePoints_${points.pointName}">刪除</button></td></tr>`)
             }
 
         }, xhrFields: {
@@ -266,6 +266,37 @@ function createCommodity(intPrice, strCommodityName, strCategory) {
             }
             else if (message === 'Success') {
                 alert('新增成功')
+            }
+        }, xhrFields: {
+            withCredentials: true
+        },
+        error: function (e) {
+            console.log(e)
+            alert('Failed')
+        }
+
+    })
+}
+
+function updatePointsExchange(pointName, pointCost, intDiscount, newPointName) {
+
+    let objPostData = { point_name: pointName, points_cost: pointCost, discount: intDiscount, new_point_name: newPointName }
+
+    $.ajax({
+        url: 'http://localhost:8080/update_points_exchange',
+        method: 'POST',
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify(objPostData),
+        success: function (res) {
+
+            let { message } = res
+
+            if (message === '資料格式錯誤') {
+                alert('資料格式錯誤')
+            }
+            else if (message === 'Success') {
+                alert('更新成功')
             }
         }, xhrFields: {
             withCredentials: true

@@ -43,3 +43,28 @@ $(document).on('click', '#createCommodityBtn', function (e) {
 
     createCommodity(intPrice, strCommodityName, strCategory)
 })
+
+$(document).on('click', 'button[id*=updatePoints]', function (e) {
+    e.preventDefault()
+    let pointName = $(this).prop('id').split('_')[1]
+    $('#updatePointsExchange').empty()
+    $('#updatePointsExchange').append(`<p>輸入優惠名稱<input id="pointName" value=${pointName} type="text"></p>`)
+    $('#updatePointsExchange').append(`<p>輸入消費點數<input id="pointCost" type="number" ></p>`)
+    $('#updatePointsExchange').append(`<p>輸入折扣<input id="pointDiscount" type="number" value=0 oninput="if(value>=100)value=0"></p>`)
+    $('#updatePointsExchange').append(`<button id="updatePointsExchangeConfirm">確認</button>`)
+
+    // console.log(pointName)
+
+    $(document).on('click', '#updatePointsExchangeConfirm', function (e) {
+        e.preventDefault()
+        let newPointName = $('#pointName').val()
+        let pointCost = $('#pointCost').val()
+        let intDiscount = $('#pointDiscount').val()
+        console.log(newPointName)
+        updatePointsExchange(pointName, pointCost, intDiscount, newPointName)
+    })
+
+})
+
+
+

@@ -8,7 +8,7 @@
 
     <link rel="stylesheet" href="./css/searchSalesVolume.css">
     <script src="./jquery/jquery.min.js" defer></script>
-    <script src="./js/function/sellerFunction" defer></script>
+    <script src="./js/function/sellerFunction.js" defer></script>
     <script src="./js/sellerManageSystem.js" defer></script>
     <title>createCommodity</title>
 </head>
@@ -26,7 +26,8 @@
             <h1>建立餐點品項</h1>
             <p>餐點名稱 <input id="commodityName" type="text"></p>
             <p>餐點分類 <input id="commodityCategory" type="text"></p>
-            <p>餐點價格 <input id="commodityPrice" type="text" oninput="value=value.replace(/[^\d]/g,'')"></p>
+            <p>餐點價格 <input id="commodityPrice" type="number"></p>
+
             <button id="createCommodityBtn">確認</button>
         </div>
 

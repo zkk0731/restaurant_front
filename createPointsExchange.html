@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="./jquery/jquery.min.js" defer></script>
-    <script src="./js/function/sellerFunction" defer></script>
+    <script src="./js/function/sellerFunction.js" defer></script>
     <script src="./js/sellerManageSystem.js" defer></script>
     <title>createPointsExchange</title>
 </head>
@@ -21,8 +21,8 @@
     <div class="main">
         <h1>創建點數兌換項目</h1>
         <p>輸入優惠名稱<input id="pointName" type="text"></p>
-        <p>輸入消費點數<input id="pointCost" type="text" oninput="value=value.replace(/[^\d]/g,'')"></p>
-        <p>輸入折扣<input id="pointDiscount" type="text" value=0 maxlength="2" oninput="value=value.replace(/[^\d]/g,'')">
+        <p>輸入消費點數<input id="pointCost" type="number"></p>
+        <p>輸入折扣<input id="pointDiscount" type="number" value=0 value=0 oninput="if(value>=100)value=0">
         </p>
         <button id="createPointsExchangeBtn">確認</button>
     </div>
