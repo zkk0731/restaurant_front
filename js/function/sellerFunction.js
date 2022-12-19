@@ -444,3 +444,23 @@ function checkOrder(intOrderId) {
         }
     })
 }
+
+$(function () {
+    $("#myForm").submit(function (e) {
+        e.preventDefault(); // 停止觸發submit
+        console.log("upload");
+        var formData = new FormData($("#myForm")[0]); // 使用FormData包裝form表單來傳輸資料
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/upload",
+            data: formData,
+            cache: false, // 不需要cache
+            processData: false, // jQuery預設會把data轉為query String, 所以要停用
+            contentType: false, // jQuery預設contentType為'application/x-www-form-urlencoded; charset=UTF-8', 且不用自己設定為'multipart/form-data'
+            dataType: 'text',
+            success: function (data) {
+                console.log(data);
+            }
+        });
+    });
+});
