@@ -158,15 +158,7 @@ function createPointsExchange(pointName, pointCost, intDiscount) {
             } else if (message === '名稱已存在') {
                 alert('名稱已存在')
             } else if (message === 'Success') {
-                $('#showSalesVolumeTotalPrice').empty()
-                $('#showSalesVolumeTable').empty()
-                $('#showSalesVolumeTable').append(`<tr><th>品項</th><th>數量</th></tr>`)
-                // map的foreach
-                $.each(orderInfoMap, function (key, value) {
-                    $('#showSalesVolumeTable').append(`<tr><td>${key}</td><td>${value}</td></tr>`)
-                })
-
-                $('#showSalesVolumeTotalPrice').append(`<p>總收入: ${totalPrice}</p>`)
+                alert('Success')
             }
         }, xhrFields: {
             withCredentials: true
@@ -191,10 +183,10 @@ function readPointsExchange() {
             let list = res
 
             $('#readPointsExchangeTable').empty()
-            $('#readPointsExchangeTable').append(`<tr><th>名稱</th><th>消費點數</th></tr>`)
+            $('#readPointsExchangeTable').append(`<tr><th>名稱</th><th>消費點數</th><th>折扣</th></tr>`)
 
             for (let points of list) {
-                $('#readPointsExchangeTable').append(`<tr><td>${points.pointName}</td><td>${points.pointsCost}</td><td><button id="updatePoints_${points.pointName}">修改</button></td> <td><button id="deletePoints_${points.pointName}">刪除</button></td></tr>`)
+                $('#readPointsExchangeTable').append(`<tr><td>${points.pointName}</td><td>${points.pointsCost}</td><td>${points.discount}</td><td><button id="updatePoints_${points.pointName}">修改</button></td> <td><button id="deletePoints_${points.pointName}">刪除</button></td></tr>`)
             }
 
         }, xhrFields: {
@@ -297,6 +289,7 @@ function updatePointsExchange(pointName, pointCost, intDiscount, newPointName) {
             }
             else if (message === 'Success') {
                 alert('更新成功')
+                window.location.reload();
             }
         }, xhrFields: {
             withCredentials: true
@@ -306,5 +299,148 @@ function updatePointsExchange(pointName, pointCost, intDiscount, newPointName) {
             alert('Failed')
         }
 
+    })
+}
+
+function deletePointsExchange(pointName) {
+
+    let objPostData = { point_name: pointName }
+
+    $.ajax({
+        url: 'http://localhost:8080/delete_points_exchange',
+        method: 'POST',
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify(objPostData),
+        success: function (res) {
+
+            let { message } = res
+
+            if (message === '資料格式錯誤') {
+                alert('資料格式錯誤')
+            }
+            else if (message === 'Success') {
+                alert('刪除成功')
+                window.location.reload();
+            }
+        }, xhrFields: {
+            withCredentials: true
+        },
+        error: function (e) {
+            console.log(e)
+            alert('Failed')
+        }
+
+    })
+}
+
+function searchUncheckedOrder() {
+
+    $.ajax({
+        url: 'http://localhost:8080/search_unchecked_order',
+        method: 'POST',
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify(''),
+        success: function (res) {
+
+            let { message, order_info } = res
+
+            if (message === '尚未登入') {
+                alert('尚未登入')
+            }
+            else if (message === 'Success') {
+
+                let list = order_info
+
+                $('#readUncheckedOrdersTable').empty()
+                $('#readUncheckedOrdersTable').append(`<tr><th>訂單資訊</th><th>下單日期</th><th>金額</th></tr>`)
+
+                for (let item of list) {
+                    let eachOrder = item.orderInfo.split(',')
+                    let orderStr = ''
+                    for (let item2 of eachOrder) {
+                        let orderName = item2.split('=')[0].trim()
+                        let orderAmount = item2.split('=')[1].trim()
+                        orderStr += '餐點: ' + orderName + ' 數量: ' + orderAmount
+                    }
+
+                    let orderTime = item.orderDatetime.replace('T', ' ')
+                    $('#readUncheckedOrdersTable').append(`<tr><td>${orderStr}</td><td>${orderTime}</td><td>${item.totalPrice}</td><td><button id="checkOrder_${item.orderId}">確認</button></td> <td><button id="cancelOrder_${item.orderId}">取消</button></td></tr>`)
+                }
+            }
+        }, xhrFields: {
+            withCredentials: true
+        },
+        error: function (e) {
+            console.log(e)
+            alert('Failed')
+        }
+    })
+}
+
+function cancelOrder(intOrderId) {
+
+    let objPostData = { order_id: intOrderId }
+
+    $.ajax({
+        url: 'http://localhost:8080/cancel_order',
+        method: 'POST',
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify(objPostData),
+        success: function (res) {
+
+            let { message } = res
+
+            if (message === '資料格式錯誤') {
+                alert('資料格式錯誤')
+            } else if (message === '訂單不存在') {
+                alert('訂單不存在')
+            } else if (message === '訂單已是取消狀態') {
+                alert('訂單已是取消狀態')
+            }
+            else if (message === 'Success') {
+                alert('取消成功')
+                window.location.reload();
+            }
+        }, xhrFields: {
+            withCredentials: true
+        },
+        error: function (e) {
+            console.log(e)
+            alert('Failed')
+        }
+    })
+}
+
+function checkOrder(intOrderId) {
+
+    let objPostData = { order_id: intOrderId }
+
+    $.ajax({
+        url: 'http://localhost:8080/check_order',
+        method: 'POST',
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify(objPostData),
+        success: function (res) {
+
+            let { message } = res
+
+            if (message === '訂單不存在') {
+                alert('訂單不存在')
+            }
+            else if (message === 'Success') {
+                alert('確認成功')
+                window.location.reload();
+            }
+        }, xhrFields: {
+            withCredentials: true
+        },
+        error: function (e) {
+            console.log(e)
+            alert('Failed')
+        }
     })
 }

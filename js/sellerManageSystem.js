@@ -48,23 +48,42 @@ $(document).on('click', 'button[id*=updatePoints]', function (e) {
     e.preventDefault()
     let pointName = $(this).prop('id').split('_')[1]
     $('#updatePointsExchange').empty()
-    $('#updatePointsExchange').append(`<p>輸入優惠名稱<input id="pointName" value=${pointName} type="text"></p>`)
-    $('#updatePointsExchange').append(`<p>輸入消費點數<input id="pointCost" type="number" ></p>`)
-    $('#updatePointsExchange').append(`<p>輸入折扣<input id="pointDiscount" type="number" value=0 oninput="if(value>=100)value=0"></p>`)
-    $('#updatePointsExchange').append(`<button id="updatePointsExchangeConfirm">確認</button>`)
+    $('#updatePointsExchange').append(`<p>輸入優惠名稱<input id="${pointName}_pointName" value=${pointName} type="text"></p>`)
+    $('#updatePointsExchange').append(`<p>輸入消費點數<input id="${pointName}_pointCost" type="number" ></p>`)
+    $('#updatePointsExchange').append(`<p>輸入折扣<input id="${pointName}_pointDiscount" type="number" value=0 oninput="if(value>=100)value=0"></p>`)
+    $('#updatePointsExchange').append(`<button id="${pointName}_updateConfirm">確認</button>`)
 
     // console.log(pointName)
 
-    $(document).on('click', '#updatePointsExchangeConfirm', function (e) {
-        e.preventDefault()
-        let newPointName = $('#pointName').val()
-        let pointCost = $('#pointCost').val()
-        let intDiscount = $('#pointDiscount').val()
-        console.log(newPointName)
-        updatePointsExchange(pointName, pointCost, intDiscount, newPointName)
-    })
-
 })
 
+$(document).on('click', 'button[id*=updateConfirm]', function (e) {
+    e.preventDefault()
+    let pointName = $(this).prop('id').split('_')[0]
+    let newPointName = $('#' + pointName + '_pointName').val()
+    let pointCost = $('#' + pointName + '_pointCost').val()
+    let intDiscount = $('#' + pointName + '_pointDiscount').val()
+    // console.log(newPointName)
+    updatePointsExchange(pointName, pointCost, intDiscount, newPointName)
+})
 
+$(document).on('click', 'button[id*=deletePoints]', function (e) {
+    e.preventDefault()
+    let pointName = $(this).prop('id').split('_')[1]
 
+    deletePointsExchange(pointName)
+})
+
+$(document).on('click', 'button[id*=cancelOrder]', function (e) {
+    e.preventDefault()
+    let intOrderId = $(this).prop('id').split('_')[1]
+
+    cancelOrder(intOrderId)
+})
+
+$(document).on('click', 'button[id*=checkOrder]', function (e) {
+    e.preventDefault()
+    let intOrderId = $(this).prop('id').split('_')[1]
+
+    checkOrder(intOrderId)
+})

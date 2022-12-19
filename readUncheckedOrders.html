@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/searchSalesVolume.css">
+    <script src="./jquery/jquery.min.js" defer></script>
+    <script src="./js/function/sellerFunction.js" defer></script>
+    <script src="./js/readUncheckedOrders.js" defer></script>
+    <script src="./js/sellerManageSystem.js" defer></script>
+    <!-- <script src="./js/readPointsExchange.js" defer></script> -->
+    <title>readUncheckedOrders</title>
+</head>
+
+<body>
+    <div class="header">
+        <div id="showLogin"></div>
+        <button onclick="window.location.href ='sellerManageSystem.html'">回到管理系統首頁</button>
+        <button id="logoutBtn">登出</button>
+    </div>
+
+    <div class="main">
+        <h1>顯示未確認訂單</h1>
+        <div id="readUncheckedOrders">
+            <table id="readUncheckedOrdersTable" class="salesVolume-table"></table>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
