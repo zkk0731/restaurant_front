@@ -334,7 +334,7 @@ function deletePointsExchange(pointName) {
     })
 }
 
-function searchUncheckedOrder() {
+function searchUncheckedOrder(searchStatus) {
 
     $.ajax({
         url: 'http://localhost:8080/search_unchecked_order',
@@ -343,6 +343,10 @@ function searchUncheckedOrder() {
         dataType: 'json',
         data: JSON.stringify(''),
         success: function (res) {
+
+            // if (searchStatus == null) {
+            //     searchStatus = ''
+            // }
 
             let { message, order_info } = res
 
@@ -354,19 +358,42 @@ function searchUncheckedOrder() {
                 let list = order_info
 
                 $('#readUncheckedOrdersTable').empty()
-                $('#readUncheckedOrdersTable').append(`<tr><th>訂單資訊</th><th>下單日期</th><th>金額</th></tr>`)
+                $('#readUncheckedOrdersTable').append(`<tr><th>訂單資訊</th><th>下單日期</th><th>狀態</th><th>金額</th></tr>`)
 
                 for (let item of list) {
-                    let eachOrder = item.orderInfo.split(',')
-                    let orderStr = ''
-                    for (let item2 of eachOrder) {
-                        let orderName = item2.split('=')[0].trim()
-                        let orderAmount = item2.split('=')[1].trim()
-                        orderStr += '餐點: ' + orderName + ' 數量: ' + orderAmount
+                    if (searchStatus != null && item.orderState === searchStatus) {
+                        let eachOrder = item.orderInfo.split(',')
+                        let orderStr = ''
+                        for (let item2 of eachOrder) {
+                            let orderName = item2.split('=')[0].trim()
+                            let orderAmount = item2.split('=')[1].trim()
+                            orderStr += '餐點: ' + orderName + ' 數量: ' + orderAmount
+                        }
+
+                        let orderTime = item.orderDatetime.replace('T', ' ')
+                        if (item.orderState === 'unchecked') {
+                            $('#readUncheckedOrdersTable').append(`<tr><td>${orderStr}</td><td>${orderTime}</td><td>${item.orderState}</td><td>${item.totalPrice}</td><td><button id="checkOrder_${item.orderId}">確認</button></td> <td><button id="cancelOrder_${item.orderId}">取消</button></td></tr>`)
+                        } else {
+                            $('#readUncheckedOrdersTable').append(`<tr><td>${orderStr}</td><td>${orderTime}</td><td>${item.orderState}</td><td>${item.totalPrice}</td></tr>`)
+                        }
+                    } else if (searchStatus == null) {
+                        let eachOrder = item.orderInfo.split(',')
+                        let orderStr = ''
+                        for (let item2 of eachOrder) {
+                            let orderName = item2.split('=')[0].trim()
+                            let orderAmount = item2.split('=')[1].trim()
+                            orderStr += '餐點: ' + orderName + ' 數量: ' + orderAmount
+                        }
+
+                        let orderTime = item.orderDatetime.replace('T', ' ')
+                        if (item.orderState === 'unchecked') {
+                            $('#readUncheckedOrdersTable').append(`<tr><td>${orderStr}</td><td>${orderTime}</td><td>${item.orderState}</td><td>${item.totalPrice}</td><td><button id="checkOrder_${item.orderId}">確認</button></td> <td><button id="cancelOrder_${item.orderId}">取消</button></td></tr>`)
+                        } else {
+                            $('#readUncheckedOrdersTable').append(`<tr><td>${orderStr}</td><td>${orderTime}</td><td>${item.orderState}</td><td>${item.totalPrice}</td></tr>`)
+                        }
                     }
 
-                    let orderTime = item.orderDatetime.replace('T', ' ')
-                    $('#readUncheckedOrdersTable').append(`<tr><td>${orderStr}</td><td>${orderTime}</td><td>${item.totalPrice}</td><td><button id="checkOrder_${item.orderId}">確認</button></td> <td><button id="cancelOrder_${item.orderId}">取消</button></td></tr>`)
+
                 }
             }
         }, xhrFields: {
