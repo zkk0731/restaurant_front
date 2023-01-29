@@ -334,7 +334,42 @@ function deletePointsExchange(pointName) {
     })
 }
 
-function searchUncheckedOrder(searchStatus) {
+
+function searchPointsExchange() {
+    let discount
+    $.ajax({
+        url: 'http://localhost:8080/readPointsExchange',
+        method: 'POST',
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify(),
+        success: function (res) {
+            let list = res
+            let pointsExchange = []
+            discount = 0
+            let cost = 0
+            for (let points of list) {
+
+                // console.log(points.discount);
+                discount = points.discount
+                cost = points.pointsCost
+                pointsExchange.push({ 'discount': discount, 'costs': cost })
+                sessionStorage.setItem('pointEx', JSON.stringify(pointsExchange))
+            }
+
+        }, xhrFields: {
+            withCredentials: true
+        },
+        error: function (e) {
+            console.log(e)
+            alert('Failed')
+        }
+
+    })
+    return discount
+}
+
+function searchUncheckedOrder(searchStatus, pointEx) {
 
     $.ajax({
         url: 'http://localhost:8080/search_unchecked_order',
@@ -358,9 +393,14 @@ function searchUncheckedOrder(searchStatus) {
                 let list = order_info
 
                 $('#readUncheckedOrdersTable').empty()
-                $('#readUncheckedOrdersTable').append(`<tr><th>訂單資訊</th><th>下單日期</th><th>狀態</th><th>金額</th></tr>`)
+                $('#readUncheckedOrdersTable').append(`<tr><th>訂單資訊</th><th>下單日期</th><th>狀態</th><th>金額</th><th>兌換折扣</th><th>折扣後金額</th></tr>`)
 
                 for (let item of list) {
+
+                    let discount = pointEx.filter(x => x.costs === item.pointsCost).map(x => x.discount)
+                    if (discount > 0) {
+                        discount += '折'
+                    }
                     if (searchStatus != null && item.orderState === searchStatus) {
                         let eachOrder = item.orderInfo.split(',')
                         let orderStr = ''
@@ -372,9 +412,11 @@ function searchUncheckedOrder(searchStatus) {
 
                         let orderTime = item.orderDatetime.replace('T', ' ')
                         if (item.orderState === 'unchecked') {
-                            $('#readUncheckedOrdersTable').append(`<tr><td>${orderStr}</td><td>${orderTime}</td><td>${item.orderState}</td><td>${item.totalPrice}</td><td><button id="checkOrder_${item.orderId}">確認</button></td> <td><button id="cancelOrder_${item.orderId}">取消</button></td></tr>`)
+                            $('#readUncheckedOrdersTable').append(`<tr><td>${orderStr}</td><td>${orderTime}</td><td>${item.orderState}</td><td>${item.totalPrice}</td><td>${discount}</td><td>${item.priceAfterDiscount}</td><td><button id="checkOrder_${item.orderId}">確認</button></td> <td><button id="cancelOrder_${item.orderId}">取消</button></td></tr>`)
+
                         } else {
-                            $('#readUncheckedOrdersTable').append(`<tr><td>${orderStr}</td><td>${orderTime}</td><td>${item.orderState}</td><td>${item.totalPrice}</td></tr>`)
+                            $('#readUncheckedOrdersTable').append(`<tr><td>${orderStr}</td><td>${orderTime}</td><td>${item.orderState}</td><td>${item.totalPrice}</td><td>${discount}</td><td>${item.priceAfterDiscount}</td></tr>`)
+
                         }
                     } else if (searchStatus == null) {
                         let eachOrder = item.orderInfo.split(',')
@@ -387,9 +429,11 @@ function searchUncheckedOrder(searchStatus) {
 
                         let orderTime = item.orderDatetime.replace('T', ' ')
                         if (item.orderState === 'unchecked') {
-                            $('#readUncheckedOrdersTable').append(`<tr><td>${orderStr}</td><td>${orderTime}</td><td>${item.orderState}</td><td>${item.totalPrice}</td><td><button id="checkOrder_${item.orderId}">確認</button></td> <td><button id="cancelOrder_${item.orderId}">取消</button></td></tr>`)
+                            $('#readUncheckedOrdersTable').append(`<tr><td>${orderStr}</td><td>${orderTime}</td><td>${item.orderState}</td><td>${item.totalPrice}</td><td>${discount}</td><td>${item.priceAfterDiscount}</td><td><button id="checkOrder_${item.orderId}">確認</button></td> <td><button id="cancelOrder_${item.orderId}">取消</button></td></tr>`)
+
                         } else {
-                            $('#readUncheckedOrdersTable').append(`<tr><td>${orderStr}</td><td>${orderTime}</td><td>${item.orderState}</td><td>${item.totalPrice}</td></tr>`)
+                            $('#readUncheckedOrdersTable').append(`<tr><td>${orderStr}</td><td>${orderTime}</td><td>${item.orderState}</td><td>${item.totalPrice}</td><td>${discount}</td><td>${item.priceAfterDiscount}</td></tr>`)
+
                         }
                     }
 
@@ -491,3 +535,4 @@ $(function () {
         });
     });
 });
+
