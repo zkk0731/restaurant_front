@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
+    <script src="./bootstrap/js/bootstrap.min.js" defer></script>
     <script src="./jquery/jquery.min.js" defer></script>
     <script src="./js/function/sellerFunction.js" defer></script>
     <script src="./js/sellerManageSystem.js" defer></script>
@@ -15,14 +17,22 @@
 <body>
     <div class="header">
         <div id="showLogin"></div>
-        <button onclick="window.location.href = 'searchSalesVolume.html'">搜尋銷售量</button>
-        <button onclick="window.location.href ='createPointsExchange.html'">創建點數兌換項目</button>
-        <button onclick="window.location.href ='readPointsExchange.html'">顯示,修改,刪除點數兌換項目</button>
-        <button onclick="window.location.href ='sendEmail.html'">推播訊息</button>
-        <button onclick="window.location.href ='createCommodity.html'">建立餐點品項</button>
-        <button onclick="window.location.href ='readUncheckedOrders.html'">顯示訂單</button>
+        <div class="container">
+            <div class="row justify-content-evenly">
+                <div class="col-8">
+                    <button onclick="window.location.href = 'searchSalesVolume.html'">搜尋銷售量</button>
+                    <button onclick="window.location.href ='createPointsExchange.html'">創建點數兌換項目</button>
+                    <button onclick="window.location.href ='readPointsExchange.html'">顯示,修改,刪除點數兌換項目</button>
+                    <button onclick="window.location.href ='sendEmail.html'">推播訊息</button>
+                    <button onclick="window.location.href ='createCommodity.html'">建立餐點品項</button>
+                    <button onclick="window.location.href ='readUncheckedOrders.html'">顯示訂單</button>
+                </div>
 
-        <button id="logoutBtn">登出</button>
+                <div class="col-1">
+                    <button id="logoutBtn">登出</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="main">
